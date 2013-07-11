@@ -2,9 +2,7 @@
 
 *Updated: 7/10/2013*
 
-*Read at: [http://www.devmynd.com/blog/2013-3-rails-ember-js](http://www.devmynd.com/blog/2013-3-rails-ember-js)*
-
-*Repository tagged at: [https://github.com/tonycoco/ember_tester/tree/part_1](https://github.com/tonycoco/ember_tester/tree/part_1)*
+Check out the [original post](http://www.devmynd.com/blog/2013-3-rails-ember-js), [markdown](https://github.com/tonycoco/ember_tester/blob/master/PART_1.md) or [tag](https://github.com/tonycoco/ember_tester/tree/part_1) all saved on GitHub in a [repository](https://github.com/tonycoco/ember_tester).
 
 ## Introduction
 
@@ -65,7 +63,7 @@ Add in the _ember-rails_ gem to the _Gemfile_ and do some clean-up. Here's what 
     source "https://rubygems.org"
 
     gem "rails", "4.0.0"
-    
+
     gem "coffee-rails", "~> 4.0.0"
     gem "ember-rails"
     gem "foreman"
@@ -106,7 +104,7 @@ Let's set up some seed data in your _db/seeds.rb_ file...
       title: "A Sample Post",
       body: "This will be a simple post record."
     )
-    
+
     puts "Complete!"
 
 Now, create/migration/seed your database...
@@ -184,7 +182,7 @@ We need to tell Ember.js that we are foolin' and moved the API into our own litt
 
     DS.RESTAdapter.reopen
       namespace: "api/v1"
-    
+
     EmberTester.Store = DS.Store.extend
       revision: 12
 
