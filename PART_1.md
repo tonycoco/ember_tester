@@ -22,6 +22,8 @@ _NOTE: Please don't check my facts. 1997 was just a guess, okay? Thanks._
 
 Annnnnnnd, scene. No more ranting. I promise.
 
+*Update: I'm using CoffeeScript now. Because I said so. Plus, it's "just JavaScript".*
+
 ## The Guides
 
 Now, the nomenclature is a bit different from Rails in Ember.js, but it makes sense if you've ever done any desktop application development. Models, Views, and Controllers are based on the desktop way of thinking. Not the server-side architecure version that Rails peeps are used to. Read up on what each part of Ember.js does [here](http://emberjs.com/guides). The Ember.js guides are a great starting point for anyone trying to wrap their brain around what Ember.js is actually doing behind the scenes.
