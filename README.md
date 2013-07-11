@@ -1,28 +1,11 @@
-== README
+# Rails + Ember.js
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Part 1
 
-Things you may want to cover:
+[Blog](http://www.devmynd.com/blog/2013-3-rails-ember-js)
+[Markdown](https://github.com/tonycoco/ember_tester/blob/master/PART_1.md)
+[Tag](https://github.com/tonycoco/ember_tester/tree/part_1)
 
-* Ruby version
+## Part 2
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+Coming soon!
