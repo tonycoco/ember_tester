@@ -1,4 +1,4 @@
-EmberTester.Router.map ->
-  @resource "posts", ->
+EmberTester.Router.map ()->
+  @resource "posts", ()->
     @resource "post",
       path: ":post_id"
