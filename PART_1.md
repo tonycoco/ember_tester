@@ -185,6 +185,7 @@ We need to tell Ember.js that we are foolin' and moved the API into our own litt
 
     EmberTester.Store = DS.Store.extend
       revision: 12
+      adapter: DS.RESTAdapter.create()
 
 Ember.js's Store is like the _config/database.yml_ in Rails. It tells [ember-data](https://github.com/emberjs/data) where to get data for the models. It sets up all the adapters so you can have any data source backing your Ember.js application.
 
