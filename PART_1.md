@@ -1,6 +1,6 @@
 # Rails + Ember.js - Part 1
 
-*Updated: 7/10/2013*
+*Updated: 9/24/2013*
 
 Check out the [original post](http://www.devmynd.com/blog/2013-3-rails-ember-js), [markdown](https://github.com/tonycoco/ember_tester/blob/master/PART_1.md) or [tag](https://github.com/tonycoco/ember_tester/tree/part_1) all saved on GitHub in a [repository](https://github.com/tonycoco/ember_tester).
 
@@ -20,8 +20,6 @@ _NOTE: Please don't check my facts. 1997 was just a guess, okay? Thanks._
 
 Annnnnnnd, scene. No more ranting. I promise.
 
-*Update: I'm using CoffeeScript now. Because I said so. Plus, it's "just JavaScript".*
-
 ## The Guides
 
 Now, the nomenclature is a bit different from Rails in Ember.js, but it makes sense if you've ever done any desktop application development. Models, Views, and Controllers are based on the desktop way of thinking. Not the server-side architecure version that Rails peeps are used to. Read up on what each part of Ember.js does [here](http://emberjs.com/guides). The Ember.js guides are a great starting point for anyone trying to wrap their brain around what Ember.js is actually doing behind the scenes.
@@ -30,10 +28,10 @@ Now, the nomenclature is a bit different from Rails in Ember.js, but it makes se
 
 This tool promises to make debugging Ember.js applications much easier. Debugging is often painful because most of Ember.js lives in memory and not in files. The Ember Extension is a Chrome Extension that works with the Web Inspector Tools.
 
-The Tilde Team seems to still be working out its kinks. But, here are some resources I've found useful so far...
+Here are some resources I've found useful so far...
 
-* [Trying the Ember Inspector Out](http://www.kaspertidemann.com/how-to-try-out-the-ember-inspector-in-google-chrome)
-* [Yehuda's Demo](https://www.youtube.com/watch?v=18OSYuhk0Yo&hd=1)
+* [Ember Inspector](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
+* [Yehuda's Initial Demo](https://www.youtube.com/watch?v=18OSYuhk0Yo&hd=1)
 * [GitHub](https://github.com/tildeio/ember-extension)
 
 ## Installing Ember.js with Rails
@@ -64,7 +62,6 @@ Add in the _ember-rails_ gem to the _Gemfile_ and do some clean-up. Here's what 
 
     gem "rails", "4.0.0"
 
-    gem "coffee-rails", "~> 4.0.0"
     gem "ember-rails"
     gem "foreman"
     gem "jquery-rails"
@@ -113,6 +110,10 @@ Now, create/migration/seed your database...
 
 ### A Simple API
 
+Now, add a controller that Ember.js can start with...
+
+    rails generate controller Ember start --no_helper
+
 Okay, so we now have a resource, but I think the route Rails just gave us needs some help becoming an API for our new Ember.js client. So, let's make the _config/routes.rb_ look more like...
 
     EmberTester::Application.routes.draw do
@@ -152,10 +153,6 @@ Ok, I'm gonna catch some heat for this, but we are going to remove "Turbolinks".
 
 Ugh. Get rid of that crap.
 
-Now, add a controller that Ember.js can start with...
-
-    rails generate controller Ember start --no_helper
-
 Start a Rails server...
 
     rails server
@@ -178,14 +175,16 @@ Ember.js does a lot for you. It gets everyone all bound up for you. Just waiting
 
 #### The Store
 
-We need to tell Ember.js that we are foolin' and moved the API into our own little secret path. In the _app/assets/javascripts/store.js.coffee_…
+We need to tell Ember.js that we are foolin' and moved the API into our own little secret path. In the _app/assets/javascripts/store.js_…
 
-    DS.RESTAdapter.reopen
+    DS.RESTAdapter.reopen({
       namespace: "api/v1"
+    });
 
-    EmberTester.Store = DS.Store.extend
-      revision: 12
+    EmberTester.Store = DS.Store.extend({
+      revision: 11,
       adapter: DS.RESTAdapter.create()
+    });
 
 Ember.js's Store is like the _config/database.yml_ in Rails. It tells [ember-data](https://github.com/emberjs/data) where to get data for the models. It sets up all the adapters so you can have any data source backing your Ember.js application.
 
@@ -193,22 +192,25 @@ Ember.js's Store is like the _config/database.yml_ in Rails. It tells [ember-dat
 
 Now, we should route users around. Create a new route file for our Posts index...
 
-    touch app/assets/javascripts/routes/posts_route.js.coffee
+    touch app/assets/javascripts/routes/posts_route.js
 
 Fill it in...
 
-    EmberTester.PostsRoute = Ember.Route.extend
-      model: ->
-        EmberTester.Post.find()
+    EmberTester.PostsRoute = Ember.Route.extend({
+      model: function() {
+        EmberTester.Post.find();
+      }
+    });
 
 The model function now just returns all the Post records in our Store.
 
-Now, in our _app/assets/javascripts/router.js.coffee_ we can connect the routes to the resources...
+Now, in our _app/assets/javascripts/router.js_ we can connect the routes to the resources...
 
-    EmberTester.Router.map ->
-      @resource "posts", ->
-        @resource "post",
-          path: ":post_id"
+    EmberTester.Router.map(function() {
+      this.resource("posts", function() {
+        this.resource("post", { path: ":post_id" });
+      });
+    });
 
 Nesting these routes makes the _{{outlet}}_ areas of the templates work to render inside each other. _{{outlet}}_ works like _yield_ in Rails. Nesting routes should happen when the user-interface deems it nested as well.
 
@@ -227,7 +229,7 @@ Let's edit up our _app/assets/javascripts/templates/application.handlebars_ temp
     </header>
 
     <div id="content">
-    {{outlet}}
+      {{outlet}}
     </div>
 
 The _app/assets/javascripts/templates/posts.handlebars_ template...
@@ -235,11 +237,11 @@ The _app/assets/javascripts/templates/posts.handlebars_ template...
     <h1>Posts</h1>
 
     <ul>
-    {{#each post in controller}}
-      <li>{{#linkTo "post" post}}{{post.title}}{{/linkTo}}</li>
-    {{else}}
-      <li>There are no posts.</li>
-    {{/each}}
+      {{#each controller}}
+        <li>{{#linkTo "post" this}}{{title}}{{/linkTo}}</li>
+      {{else}}
+        <li>There are no posts.</li>
+      {{/each}}
     </ul>
 
     {{outlet}}

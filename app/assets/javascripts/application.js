@@ -17,6 +17,8 @@
 //= require ember-data
 //= require_self
 //= require ember_tester
+
+// for more details see: http://emberjs.com/guides/application/
 EmberTester = Ember.Application.create();
 
 //= require_tree .
