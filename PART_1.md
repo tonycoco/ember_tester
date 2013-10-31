@@ -1,6 +1,6 @@
-# Rails + Ember.js - Part 1
+# Rails + Ember.js (Part 1)
 
-*Updated: 9/24/2013*
+*Updated: 10/30/2013*
 
 Check out the [original post](http://www.devmynd.com/blog/2013-3-rails-ember-js), [markdown](https://github.com/tonycoco/ember_tester/blob/master/PART_1.md) or [tag](https://github.com/tonycoco/ember_tester/tree/part_1) all saved on GitHub in a [repository](https://github.com/tonycoco/ember_tester).
 
@@ -48,7 +48,7 @@ Let me be honest, this is super easy for a green project, but probably not the e
 
 So, let's take the pie-in-the-sky route...
 
-    rails new ember_tester -d postgresql -T
+    rails new ember_tester -d postgresql -BT
 
 If you're using the PostgreSQL database, create the role and give it access with the superuser flag...
 
@@ -116,7 +116,7 @@ Now, add a controller that Ember.js can start with...
 
 Okay, so we now have a resource, but I think the route Rails just gave us needs some help becoming an API for our new Ember.js client. So, let's make the _config/routes.rb_ look more like...
 
-    EmberTester::Application.routes.draw do
+    App::Application.routes.draw do
       namespace :api do
         namespace :v1 do
           resources :posts
@@ -198,7 +198,7 @@ Fill it in...
 
     EmberTester.PostsRoute = Ember.Route.extend({
       model: function() {
-        EmberTester.Post.find();
+        return EmberTester.Post.find();
       }
     });
 
